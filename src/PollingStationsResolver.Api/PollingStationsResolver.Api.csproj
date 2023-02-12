@@ -14,7 +14,7 @@
     <PackageReference Include="ExcelDataReader.DataSet" Version="3.6.0" />
     <PackageReference Include="FastEndpoints" Version="5.7.0" />
     <PackageReference Include="FastEndpoints.Security" Version="5.7.0" />
-    <PackageReference Include="FastEndpoints.Swagger" Version="5.7.0" />
+    <PackageReference Include="FastEndpoints.Swagger" Version="5.7.1" />
     <PackageReference Include="Hangfire" Version="1.7.33" />
     <PackageReference Include="Hangfire.AspNetCore" Version="1.7.33" />
     <PackageReference Include="Hangfire.Dashboard.BasicAuthorization" Version="1.0.2" />
