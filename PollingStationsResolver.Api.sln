@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8929400C-A7A5-4564-8C7F-A03E114EC675}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		docker-compose.yml = docker-compose.yml
+		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9EDFEF85-1590-4FF0-B01D-2684806F5705}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingStationsResolver.Api", "src\PollingStationsResolver.Api\PollingStationsResolver.Api.csproj", "{F041769B-A3C5-4F62-8970-2546C4FCED46}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingStationsResolver.Domain", "src\PollingStationsResolver.Domain\PollingStationsResolver.Domain.csproj", "{4DAB76D1-B8BC-418D-AD05-497E049B3544}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingStationsResolver.Migrator", "src\PollingStationsResolver.Migrator\PollingStationsResolver.Migrator.csproj", "{C159AECF-3E4A-42E1-9159-C866433A0A6A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingStationsResolver.Api.Tests", "tests\PollingStationsResolver.Api.Tests\PollingStationsResolver.Api.Tests.csproj", "{C23E2880-ACE3-48AE-B97F-8BB35493FABF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{490F2529-5CBD-4ACF-96A0-9B90AF55AFBF}"
+	ProjectSection(SolutionItems) = preProject
+		CodeCoverage.runsettings = CodeCoverage.runsettings
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F041769B-A3C5-4F62-8970-2546C4FCED46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F041769B-A3C5-4F62-8970-2546C4FCED46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F041769B-A3C5-4F62-8970-2546C4FCED46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F041769B-A3C5-4F62-8970-2546C4FCED46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DAB76D1-B8BC-418D-AD05-497E049B3544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DAB76D1-B8BC-418D-AD05-497E049B3544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DAB76D1-B8BC-418D-AD05-497E049B3544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DAB76D1-B8BC-418D-AD05-497E049B3544}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C159AECF-3E4A-42E1-9159-C866433A0A6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C159AECF-3E4A-42E1-9159-C866433A0A6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C159AECF-3E4A-42E1-9159-C866433A0A6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C159AECF-3E4A-42E1-9159-C866433A0A6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C23E2880-ACE3-48AE-B97F-8BB35493FABF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C23E2880-ACE3-48AE-B97F-8BB35493FABF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C23E2880-ACE3-48AE-B97F-8BB35493FABF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C23E2880-ACE3-48AE-B97F-8BB35493FABF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F041769B-A3C5-4F62-8970-2546C4FCED46} = {9EDFEF85-1590-4FF0-B01D-2684806F5705}
+		{4DAB76D1-B8BC-418D-AD05-497E049B3544} = {9EDFEF85-1590-4FF0-B01D-2684806F5705}
+		{C159AECF-3E4A-42E1-9159-C866433A0A6A} = {9EDFEF85-1590-4FF0-B01D-2684806F5705}
+		{C23E2880-ACE3-48AE-B97F-8BB35493FABF} = {490F2529-5CBD-4ACF-96A0-9B90AF55AFBF}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2625F564-6C51-4166-844A-43248B6869C0}
+	EndGlobalSection
+EndGlobal
