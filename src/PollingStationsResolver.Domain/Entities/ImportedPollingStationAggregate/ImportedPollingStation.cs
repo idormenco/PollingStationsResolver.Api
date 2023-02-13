@@ -40,7 +40,7 @@ public class ImportedPollingStation : BaseEntity, IAggregateRoot
     // This will create a read only wrapper around the private list so is protected against "external updates".
     // It's much cheaper than .ToList() because it will not have to copy all items in a new collection. (Just one heap alloc for the wrapper instance)
     //https://msdn.microsoft.com/en-us/library/e78dcd75(v=vs.110).aspx 
-    public virtual IReadOnlyCollection<ImportedPollingStationAddress> AssignedAddresses => _assignedAddresses.AsReadOnly();
+    public IReadOnlyCollection<ImportedPollingStationAddress> AssignedAddresses => _assignedAddresses.AsReadOnly();
 
     public void UpdateDetails(string pollingStationNumber, string county, string locality, string address, double? latitude, double? longitude, ResolvedAddressStatus resolvedAddressStatus)
     {
@@ -62,14 +62,14 @@ public class ImportedPollingStation : BaseEntity, IAggregateRoot
     public void UpdateAddress(Guid id, string locality, string streetCode, string street, string houseNumbers, string remarks)
     {
         var address = GetAddressById(id);
-        Guard.Against.Null(address);
+        Guard.Against.Null(address, message: "Cannot find address with requested id.", parameterName: nameof(id));
         address.UpdateDetails(locality, streetCode, street, houseNumbers, remarks);
     }
 
     public void DeleteAddress(Guid id)
     {
         var address = GetAddressById(id);
-        Guard.Against.Null(address);
+        Guard.Against.Null(address, message: "Cannot find address with requested id.", parameterName: nameof(id));
         _assignedAddresses.Remove(address);
     }
 
