@@ -48,7 +48,8 @@ namespace PollingStationsResolver.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FileId");
+                    b.HasIndex("FileId")
+                        .IsUnique();
 
                     b.ToTable("ImportJobs");
                 });
@@ -69,7 +70,7 @@ namespace PollingStationsResolver.Domain.Migrations
                     b.ToTable("ImportJobFile");
                 });
 
-            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportedPollingStation", b =>
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -84,10 +85,7 @@ namespace PollingStationsResolver.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("FailMessage")
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("ImportJobId")
+                    b.Property<Guid>("JobId")
                         .HasColumnType("uuid");
 
                     b.Property<double?>("Latitude")
@@ -109,12 +107,10 @@ namespace PollingStationsResolver.Domain.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ImportJobId");
-
                     b.ToTable("ImportedPollingStations");
                 });
 
-            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportedPollingStationAddress", b =>
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStationAddress", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,6 +119,9 @@ namespace PollingStationsResolver.Domain.Migrations
 
                     b.Property<string>("HouseNumbers")
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("ImportedPollingStationId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Locality")
                         .IsRequired()
@@ -139,6 +138,8 @@ namespace PollingStationsResolver.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ImportedPollingStationId");
+
                     b.ToTable("ImportedPollingStationAddresses");
                 });
 
@@ -152,9 +153,6 @@ namespace PollingStationsResolver.Domain.Migrations
                     b.Property<string>("HouseNumbers")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<Guid?>("ImportedPollingStationId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Locality")
                         .IsRequired()
@@ -176,8 +174,6 @@ namespace PollingStationsResolver.Domain.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ImportedPollingStationId");
 
                     b.HasIndex("PollingStationId");
 
@@ -251,42 +247,29 @@ namespace PollingStationsResolver.Domain.Migrations
             modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob", b =>
                 {
                     b.HasOne("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJobFile", "File")
-                        .WithMany()
-                        .HasForeignKey("FileId")
+                        .WithOne()
+                        .HasForeignKey("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob", "FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("File");
                 });
 
-            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportedPollingStation", b =>
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStationAddress", b =>
                 {
-                    b.HasOne("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob", "ImportJob")
-                        .WithMany("PollingStations")
-                        .HasForeignKey("ImportJobId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ImportJob");
+                    b.HasOne("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", null)
+                        .WithMany("AssignedAddresses")
+                        .HasForeignKey("ImportedPollingStationId");
                 });
 
             modelBuilder.Entity("PollingStationsResolver.Domain.Entities.PollingStationAggregate.AssignedAddress", b =>
                 {
-                    b.HasOne("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportedPollingStation", null)
-                        .WithMany("AssignedAddresses")
-                        .HasForeignKey("ImportedPollingStationId");
-
                     b.HasOne("PollingStationsResolver.Domain.Entities.PollingStationAggregate.PollingStation", null)
                         .WithMany("AssignedAddresses")
                         .HasForeignKey("PollingStationId");
                 });
 
-            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob", b =>
-                {
-                    b.Navigation("PollingStations");
-                });
-
-            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportedPollingStation", b =>
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", b =>
                 {
                     b.Navigation("AssignedAddresses");
                 });

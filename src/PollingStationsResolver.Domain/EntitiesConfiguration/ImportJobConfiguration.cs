@@ -11,5 +11,9 @@ public class ImportJobConfiguration : IEntityTypeConfiguration<ImportJob>
         builder
             .Property(e => e.Id)
             .HasDefaultValueSql("uuid_generate_v4()");
+
+        builder
+            .HasOne(x => x.File)
+            .WithOne();
     }
 }

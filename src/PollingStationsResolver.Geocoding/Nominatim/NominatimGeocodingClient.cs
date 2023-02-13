@@ -1,10 +1,11 @@
 ﻿using System.Text.Encodings.Web;
 using System.Text.Json;
-using PollingStationsResolver.Domain.Entities.ImportJobAggregate;
+using Microsoft.Extensions.Logging;
+using PollingStationsResolver.Geocoding.Models;
 
-namespace PollingStationsResolver.Api.Services.Geocoding.Nominatim;
+namespace PollingStationsResolver.Geocoding.Nominatim;
 
-public class NominatimGeocodingClient : INominatimGeocodingClient
+internal class NominatimGeocodingClient : INominatimGeocodingClient
 {
     private readonly HttpClient _httpClient;
     private ILogger<NominatimGeocodingClient> _logger;
@@ -15,14 +16,14 @@ public class NominatimGeocodingClient : INominatimGeocodingClient
         _logger = logger;
     }
 
-    public async Task<LocationSearchResult> FindCoordinatesAsync(string county, string fullAddress)
+    public async Task<LocationSearchResult> FindCoordinatesAsync(string county, string fullAddress, CancellationToken cancellationToken)
     {
 
         try
         {
             // TODO: implement filtering by country
-            using var response = await _httpClient.GetAsync($"/search?q={UrlEncoder.Default.Encode(county)}+{UrlEncoder.Default.Encode(fullAddress)}");
-            var responseString = await response.Content.ReadAsStringAsync();
+            using var response = await _httpClient.GetAsync($"/search?q={UrlEncoder.Default.Encode(county)}+{UrlEncoder.Default.Encode(fullAddress)}", cancellationToken);
+            var responseString = await response.Content.ReadAsStringAsync(cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
@@ -30,12 +31,7 @@ public class NominatimGeocodingClient : INominatimGeocodingClient
 
                 if (searchResults!.Any())
                 {
-                    return new LocationSearchResult
-                    {
-                        OperationStatus = ResolvedAddressStatus.Success,
-                        Latitude = searchResults!.First().Lat,
-                        Longitude = searchResults!.First().Lon
-                    };
+                    return new LocationSearchResult.Found(searchResults!.First().Lat, searchResults!.First().Lon);
                 }
             }
             else
@@ -48,11 +44,9 @@ public class NominatimGeocodingClient : INominatimGeocodingClient
         catch (Exception ex)
         {
             _logger.LogError(ex, "An error occurred when calling Nominatim service");
+            return new LocationSearchResult.Error();
         }
 
-        return new LocationSearchResult
-        {
-            OperationStatus = ResolvedAddressStatus.NotFound,
-        };
+        return new LocationSearchResult.NotFound();
     }
 }

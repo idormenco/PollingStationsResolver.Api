@@ -73,12 +73,12 @@ public class UpdateAssignedAddressRequestValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.Remarks);
     }
 
-    public static IEnumerable<object[]> InvalidStringsTestCases =>
-        new List<object[]>
+    public static IEnumerable<object?[]> InvalidStringsTestCases =>
+        new List<object?[]>
         {
-            new object[] { null},
-            new object[] { ""},
-            new object[] { "\t"},
-            new object[] { "s".Repeat(1025)},
+            new object?[] { null},
+            new object?[] { ""},
+            new object?[] { "\t"},
+            new object?[] { "s".Repeat(1025)},
         };
 }

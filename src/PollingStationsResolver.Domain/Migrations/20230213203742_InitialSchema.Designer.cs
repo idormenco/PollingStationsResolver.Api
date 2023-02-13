@@ -12,8 +12,8 @@ using PollingStationsResolver.Domain;
 namespace PollingStationsResolver.Domain.Migrations
 {
     [DbContext(typeof(PollingStationsResolverContext))]
-    [Migration("20230203150524_InitialIdentityModel")]
-    partial class InitialIdentityModel
+    [Migration("20230213203742_InitialSchema")]
+    partial class InitialSchema
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,9 +33,8 @@ namespace PollingStationsResolver.Domain.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<string>("Base64File")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<Guid>("FileId")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("FileName")
                         .IsRequired()
@@ -52,7 +51,26 @@ namespace PollingStationsResolver.Domain.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FileId")
+                        .IsUnique();
+
                     b.ToTable("ImportJobs");
+                });
+
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJobFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasDefaultValueSql("uuid_generate_v4()");
+
+                    b.Property<string>("Base64File")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ImportJobFile");
                 });
 
             modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", b =>
@@ -68,9 +86,6 @@ namespace PollingStationsResolver.Domain.Migrations
 
                     b.Property<string>("County")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("FailMessage")
                         .HasColumnType("text");
 
                     b.Property<Guid>("JobId")
@@ -105,10 +120,10 @@ namespace PollingStationsResolver.Domain.Migrations
                         .HasColumnType("uuid")
                         .HasDefaultValueSql("uuid_generate_v4()");
 
-                    b.Property<string>("HouseNumber")
+                    b.Property<string>("HouseNumbers")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ImportedPollingStationId")
+                    b.Property<Guid?>("ImportedPollingStationId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Locality")
@@ -146,7 +161,7 @@ namespace PollingStationsResolver.Domain.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("PollingStationId")
+                    b.Property<Guid?>("PollingStationId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Remarks")
@@ -232,26 +247,29 @@ namespace PollingStationsResolver.Domain.Migrations
                     b.ToTable("ResolvedAddresses");
                 });
 
-            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStationAddress", b =>
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob", b =>
                 {
-                    b.HasOne("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", "ImportedPollingStation")
-                        .WithMany("AssignedAddresses")
-                        .HasForeignKey("ImportedPollingStationId")
+                    b.HasOne("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJobFile", "File")
+                        .WithOne()
+                        .HasForeignKey("PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob", "FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ImportedPollingStation");
+                    b.Navigation("File");
+                });
+
+            modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStationAddress", b =>
+                {
+                    b.HasOne("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", null)
+                        .WithMany("AssignedAddresses")
+                        .HasForeignKey("ImportedPollingStationId");
                 });
 
             modelBuilder.Entity("PollingStationsResolver.Domain.Entities.PollingStationAggregate.AssignedAddress", b =>
                 {
-                    b.HasOne("PollingStationsResolver.Domain.Entities.PollingStationAggregate.PollingStation", "PollingStation")
+                    b.HasOne("PollingStationsResolver.Domain.Entities.PollingStationAggregate.PollingStation", null)
                         .WithMany("AssignedAddresses")
-                        .HasForeignKey("PollingStationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PollingStation");
+                        .HasForeignKey("PollingStationId");
                 });
 
             modelBuilder.Entity("PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation", b =>

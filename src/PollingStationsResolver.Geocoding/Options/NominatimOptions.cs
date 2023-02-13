@@ -1,6 +1,6 @@
-﻿namespace PollingStationsResolver.Api.Options;
+﻿namespace PollingStationsResolver.Geocoding.Options;
 
-public class NominatimOptions
+internal class NominatimOptions
 {
     public const string SectionKey = "Nominatim";
     public string BaseUrl { get; set; }
