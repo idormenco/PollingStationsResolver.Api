@@ -12,11 +12,13 @@ FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
 
 COPY ["src/PollingStationsResolver.Api/PollingStationsResolver.Api.csproj", "PollingStationsResolver.Api/"]
+COPY ["src/PollingStationsResolver.Geocoding/PollingStationsResolver.Geocoding.csproj", "PollingStationsResolver.Geocoding/"]
 COPY ["src/PollingStationsResolver.Domain/PollingStationsResolver.Domain.csproj", "PollingStationsResolver.Domain/"]
 
 RUN dotnet restore "PollingStationsResolver.Api/PollingStationsResolver.Api.csproj"
 
 COPY ["src/PollingStationsResolver.Api", "PollingStationsResolver.Api/"]
+COPY ["src/PollingStationsResolver.Geocoding", "PollingStationsResolver.Geocoding/"]
 COPY ["src/PollingStationsResolver.Domain", "PollingStationsResolver.Domain/"]
 
 WORKDIR /app/PollingStationsResolver.Api

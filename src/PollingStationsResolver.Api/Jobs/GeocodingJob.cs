@@ -1,10 +1,10 @@
-﻿using System.Collections.Immutable;
-using Ardalis.GuardClauses;
-using PollingStationsResolver.Api.Services.Geocoding;
+﻿using Ardalis.GuardClauses;
 using PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate;
 using PollingStationsResolver.Domain.Entities.ImportJobAggregate;
 using PollingStationsResolver.Domain.Repository;
 using PollingStationsResolver.Domain.Specifications;
+using PollingStationsResolver.Geocoding;
+using PollingStationsResolver.Geocoding.Models;
 
 namespace PollingStationsResolver.Api.Jobs;
 
@@ -12,15 +12,15 @@ public class GeocodingJob : IGeocodingJob
 {
     private readonly IRepository<ImportJob> _importJobRepository;
     private readonly IRepository<ImportedPollingStation> _repository;
-    private readonly IImmutableList<IGeocodingService> _addressLocationResolveServices;
+    private readonly IGetAddressCoordinatesQuery _getAddressCoordinatesQuery;
 
-    public GeocodingJob(IEnumerable<IGeocodingService> addressLocationResolveServices,
-        IRepository<ImportJob> importJobRepository,
-        IRepository<ImportedPollingStation> repository)
+    public GeocodingJob(IRepository<ImportJob> importJobRepository,
+        IRepository<ImportedPollingStation> repository,
+        IGetAddressCoordinatesQuery getAddressCoordinatesQuery)
     {
         _importJobRepository = importJobRepository;
         _repository = repository;
-        _addressLocationResolveServices = addressLocationResolveServices.ToImmutableList();
+        _getAddressCoordinatesQuery = getAddressCoordinatesQuery;
     }
 
     public async Task Run(Guid jobId, Guid pollingStationId, CancellationToken cancellationToken)
@@ -41,15 +41,12 @@ public class GeocodingJob : IGeocodingJob
             return;
         }
 
-        foreach (var service in _addressLocationResolveServices)
+        var result = await _getAddressCoordinatesQuery.ExecuteAsync(importedPollingStation.County, importedPollingStation.Address, cancellationToken);
+        if (result is LocationSearchResult.Found coordinates)
         {
-            var result = await service.FindCoordinatesAsync(importedPollingStation.County, importedPollingStation.Address);
-            if (result.OperationStatus == ResolvedAddressStatus.Success)
-            {
-                importedPollingStation.UpdateCoordinates(result.Latitude, result.Longitude);
-                await _repository.UpdateAsync(importedPollingStation, cancellationToken);
-                break;
-            }
+            var (latitude, longitude) = coordinates;
+            importedPollingStation.UpdateCoordinates(latitude, longitude);
+            await _repository.UpdateAsync(importedPollingStation, cancellationToken);
         }
     }
 }

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PollingStationsResolver.Domain.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialIdentityModel : Migration
+    public partial class InitialSchema : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,8 +26,7 @@ namespace PollingStationsResolver.Domain.Migrations
                     PollingStationNumber = table.Column<string>(type: "text", nullable: false),
                     Address = table.Column<string>(type: "text", nullable: false),
                     JobId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ResolvedAddressStatus = table.Column<int>(type: "integer", nullable: false),
-                    FailMessage = table.Column<string>(type: "text", nullable: true)
+                    ResolvedAddressStatus = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,19 +34,15 @@ namespace PollingStationsResolver.Domain.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ImportJobs",
+                name: "ImportJobFile",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
-                    FileName = table.Column<string>(type: "text", nullable: false),
-                    Base64File = table.Column<string>(type: "text", nullable: false),
-                    JobStatus = table.Column<int>(type: "integer", nullable: false),
-                    StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
-                    FinishedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    Base64File = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ImportJobs", x => x.Id);
+                    table.PrimaryKey("PK_ImportJobFile", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -91,9 +86,9 @@ namespace PollingStationsResolver.Domain.Migrations
                     Locality = table.Column<string>(type: "text", nullable: false),
                     Street = table.Column<string>(type: "text", nullable: true),
                     StreetCode = table.Column<string>(type: "text", nullable: true),
-                    HouseNumber = table.Column<string>(type: "text", nullable: true),
+                    HouseNumbers = table.Column<string>(type: "text", nullable: true),
                     Remarks = table.Column<string>(type: "text", nullable: true),
-                    ImportedPollingStationId = table.Column<Guid>(type: "uuid", nullable: false)
+                    ImportedPollingStationId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -102,6 +97,27 @@ namespace PollingStationsResolver.Domain.Migrations
                         name: "FK_ImportedPollingStationAddresses_ImportedPollingStations_Imp~",
                         column: x => x.ImportedPollingStationId,
                         principalTable: "ImportedPollingStations",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ImportJobs",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false, defaultValueSql: "uuid_generate_v4()"),
+                    JobStatus = table.Column<int>(type: "integer", nullable: false),
+                    StartedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    FinishedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    FileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FileName = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ImportJobs", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ImportJobs_ImportJobFile_FileId",
+                        column: x => x.FileId,
+                        principalTable: "ImportJobFile",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -116,7 +132,7 @@ namespace PollingStationsResolver.Domain.Migrations
                     Street = table.Column<string>(type: "text", nullable: false),
                     HouseNumbers = table.Column<string>(type: "text", nullable: false),
                     Remarks = table.Column<string>(type: "text", nullable: false),
-                    PollingStationId = table.Column<Guid>(type: "uuid", nullable: false)
+                    PollingStationId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,14 +141,19 @@ namespace PollingStationsResolver.Domain.Migrations
                         name: "FK_PollingStationAddresses_PollingStations_PollingStationId",
                         column: x => x.PollingStationId,
                         principalTable: "PollingStations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
                 name: "IX_ImportedPollingStationAddresses_ImportedPollingStationId",
                 table: "ImportedPollingStationAddresses",
                 column: "ImportedPollingStationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ImportJobs_FileId",
+                table: "ImportJobs",
+                column: "FileId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_PollingStationAddresses_PollingStationId",
@@ -157,6 +178,9 @@ namespace PollingStationsResolver.Domain.Migrations
 
             migrationBuilder.DropTable(
                 name: "ImportedPollingStations");
+
+            migrationBuilder.DropTable(
+                name: "ImportJobFile");
 
             migrationBuilder.DropTable(
                 name: "PollingStations");

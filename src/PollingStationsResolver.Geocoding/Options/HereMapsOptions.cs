@@ -1,6 +1,6 @@
-﻿namespace PollingStationsResolver.Api.Options;
+﻿namespace PollingStationsResolver.Geocoding.Options;
 
-public class HereMapsOptions
+internal class HereMapsOptions
 {
     public const string SectionKey = "HereMaps";
     public string ApiKey { get; set; }

@@ -15,6 +15,7 @@ public class Endpoint : EndpointWithoutRequest<ImportJobModel, ResponseMapper>
     public override void Configure()
     {
         Get("/import-job/current-in-progress");
+        AllowAnonymous();
     }
 
     public override async Task HandleAsync(CancellationToken ct)

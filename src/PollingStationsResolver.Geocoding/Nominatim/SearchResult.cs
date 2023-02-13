@@ -1,8 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PollingStationsResolver.Api.Services.Geocoding.Nominatim;
+namespace PollingStationsResolver.Geocoding.Nominatim;
 
-public class SearchResult
+internal class SearchResult
 {
     [JsonPropertyName("place_id")]
     public int PlaceId { get; set; }

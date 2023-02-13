@@ -1,22 +1,23 @@
 ﻿using Hangfire;
 using Hangfire.Dashboard;
 using Hangfire.Dashboard.BasicAuthorization;
-using Hangfire.PostgreSql;
+using Hangfire.MemoryStorage;
 
 namespace PollingStationsResolver.Api.Jobs;
 
 public static class Installer
 {
-    public static IServiceCollection AddHangfireJobs(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddHangfireJobs(this IServiceCollection services)
     {
         // Add Hangfire services.
         services.AddTransient<IGeocodingJob, GeocodingJob>();
 
-        services.AddHangfire(config => config
+        services.AddHangfire(c => c
             .SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
             .UseSimpleAssemblyNameTypeSerializer()
             .UseRecommendedSerializerSettings()
-            .UsePostgreSqlStorage(configuration.GetConnectionString("HangfireConnection")));
+            .UseMemoryStorage()
+        );
 
         // Add the processing server as IHostedService
         services.AddHangfireServer();
