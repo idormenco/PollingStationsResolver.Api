@@ -5,7 +5,6 @@ namespace PollingStationsResolver.Api.Tests.Aggregates;
 
 public class ImportJobTests
 {
-
     [Fact]
     public void ImportJob_Constructor_ShouldSetCorrectValues()
     {

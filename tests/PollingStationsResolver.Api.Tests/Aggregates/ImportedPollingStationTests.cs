@@ -8,6 +8,23 @@ namespace PollingStationsResolver.Api.Tests.Aggregates;
 public class ImportedPollingStationTests
 {
     [Fact]
+    public void ImportedPollingStation_Constructor_ShouldSetCorrectValues()
+    {
+        // Arrange
+        var importedPollingStation = new ImportedPollingStation("5678", "newCounty", "newLocality", "newAddress", 2, 3,
+            ResolvedAddressStatus.Success);
+
+        // Assert
+        importedPollingStation.PollingStationNumber.Should().Be("5678");
+        importedPollingStation.County.Should().Be("newCounty");
+        importedPollingStation.Locality.Should().Be("newLocality");
+        importedPollingStation.Address.Should().Be("newAddress");
+        importedPollingStation.Latitude.Should().Be(2);
+        importedPollingStation.Longitude.Should().Be(3);
+        importedPollingStation.ResolvedAddressStatus.Should().Be(ResolvedAddressStatus.Success);
+    }
+
+    [Fact]
     public void AddAssignedAddress_AddsAddressToAssignedAddresses()
     {
         // Arrange
@@ -17,7 +34,7 @@ public class ImportedPollingStationTests
         importedPollingStation.AddAssignedAddress("locality", "code", "street", "numbers", "remarks");
 
         // Assert
-        importedPollingStation.AssignedAddresses.Count().Should().Be(3);
+        importedPollingStation.AssignedAddresses.Should().HaveCount(3);
         importedPollingStation.AssignedAddresses.Last().Locality.Should().Be("locality");
         importedPollingStation.AssignedAddresses.Last().StreetCode.Should().Be("code");
         importedPollingStation.AssignedAddresses.Last().Street.Should().Be("street");

@@ -1,9 +1,7 @@
 ﻿using FluentAssertions;
-using Microsoft.Extensions.Options;
 using PollingStationsResolver.Api.Options;
 using PollingStationsResolver.Api.Services.Credentials;
 using PollingStationsResolver.Api.Tests.TestsHelpers;
-using Xunit;
 
 namespace PollingStationsResolver.Api.Tests.Services;
 
