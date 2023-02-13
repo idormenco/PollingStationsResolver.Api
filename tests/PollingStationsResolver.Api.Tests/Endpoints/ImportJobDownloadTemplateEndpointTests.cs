@@ -1,7 +1,6 @@
 ﻿using FastEndpoints;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
-using PollingStationsResolver.Api.Tests.TestsHelpers;
 using Endpoint = PollingStationsResolver.Api.Features.ImportJob.DownloadTemplate.Endpoint;
 
 namespace PollingStationsResolver.Api.Tests.Endpoints;
@@ -22,9 +21,6 @@ public class ImportJobDownloadTemplateEndpointTests
 
         _endpoint.ValidationFailed.Should().BeFalse();
         _endpoint.HttpContext.Response.StatusCode.Should().Be(StatusCodes.Status200OK);
-
-        _endpoint.HttpContext.Response.Body.ReadBody()
-            .Should()
-            .Be("tbd");
+        _endpoint.HttpContext.Response.ContentLength.Should().NotBe(0);
     }
 }

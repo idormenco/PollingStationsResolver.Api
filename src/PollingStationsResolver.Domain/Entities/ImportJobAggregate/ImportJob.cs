@@ -2,6 +2,7 @@
 
 public class ImportJob : BaseEntity, IAggregateRoot
 {
+    #pragma warning disable CS8618 // Required by Entity Framework
     public ImportJob()
     {
 
