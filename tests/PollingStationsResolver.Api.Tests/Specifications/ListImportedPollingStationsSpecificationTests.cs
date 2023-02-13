@@ -1,6 +1,5 @@
 ﻿using FluentAssertions;
 using PollingStationsResolver.Api.Tests.TestsHelpers;
-using PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate;
 using PollingStationsResolver.Domain.Specifications;
 
 namespace PollingStationsResolver.Api.Tests.Specifications;

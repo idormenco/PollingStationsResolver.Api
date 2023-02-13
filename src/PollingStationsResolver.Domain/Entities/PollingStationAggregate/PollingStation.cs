@@ -58,14 +58,14 @@ public class PollingStation : BaseEntity, IAggregateRoot
     public void UpdateAddress(Guid id, string locality, string streetCode, string street, string houseNumbers, string remarks)
     {
         var address = GetAddressById(id);
-        Guard.Against.Null(address);
+        Guard.Against.Null(address, message: "Cannot find address with requested id.", parameterName: nameof(id));
         address.UpdateDetails(locality, streetCode, street, houseNumbers, remarks);
     }
 
     public void DeleteAddress(Guid id)
     {
         var address = GetAddressById(id);
-        Guard.Against.Null(address);
+        Guard.Against.Null(address, message: "Cannot find address with requested id.", parameterName: nameof(id));
         _assignedAddresses.Remove(address);
     }
 
