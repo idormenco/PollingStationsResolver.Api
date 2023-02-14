@@ -5,7 +5,7 @@ using PollingStationsResolver.Api.Services.Credentials;
 using PollingStationsResolver.Api.Services.Parser;
 using PollingStationsResolver.Domain;
 using System.Text;
-using PollingStationsResolver.Api.Jobs;
+using PollingStationsResolver.Api.HangfireJobs;
 using PollingStationsResolver.Geocoding;
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); // set this for Excel parser

@@ -3,7 +3,7 @@ using PollingStationsResolver.Domain.Specifications;
 using ImportJobEntity = PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob;
 using ImportedPollingStationEntity = PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation;
 using Hangfire;
-using PollingStationsResolver.Api.Jobs;
+using PollingStationsResolver.Api.HangfireJobs;
 
 namespace PollingStationsResolver.Api.Features.ImportJob.StartProcessing;
 

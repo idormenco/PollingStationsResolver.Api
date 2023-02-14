@@ -87,8 +87,14 @@ public class ImportedPollingStation : BaseEntity, IAggregateRoot
     {
         Guard.Against.Null(latitude);
         Guard.Against.Null(longitude);
+
         ResolvedAddressStatus = ResolvedAddressStatus.Success;
         Latitude = latitude;
         Longitude = longitude;
+    }
+
+    public void MarkAsNotFound()
+    {
+        ResolvedAddressStatus = ResolvedAddressStatus.NotFound;
     }
 }
