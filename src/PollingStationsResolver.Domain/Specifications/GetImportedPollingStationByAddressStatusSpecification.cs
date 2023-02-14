@@ -10,7 +10,7 @@ public class GetImportedPollingStationByAddressStatusSpecification : Specificati
         ResolvedAddressStatus resolvedAddressStatus)
     {
         Query
-            .Where(x => x.Id == importJobId)
+            .Where(x => x.JobId == importJobId)
             .Where(x => x.ResolvedAddressStatus == resolvedAddressStatus);
     }
 }
