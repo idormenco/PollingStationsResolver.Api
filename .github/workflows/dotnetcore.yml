@@ -20,7 +20,7 @@ jobs:
       run: dotnet build ./PollingStationsResolver.Api.sln --configuration Release
     
     - name: Test with dotnet
-      run: dotnet test ./PollingStationsResolver.Api.sln --configuration Release
+      run: dotnet test ./PollingStationsResolver.Api.sln --configuration Release --collect:"XPlat Code Coverage"
       
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.17
