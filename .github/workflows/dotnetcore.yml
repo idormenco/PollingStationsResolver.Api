@@ -28,3 +28,9 @@ jobs:
         reports: '**/coverage.cobertura.xml'
         reporttypes: Html;Badges
         title: 'PollingStationsResolver.Api Code Coverage'
+        
+    - name: Upload coverage report artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: CoverageReport   
+        path: coveragereport
