@@ -6,7 +6,7 @@ using PollingStationsResolver.Domain.Specifications;
 using PollingStationsResolver.Geocoding;
 using PollingStationsResolver.Geocoding.Models;
 
-namespace PollingStationsResolver.Api.Jobs;
+namespace PollingStationsResolver.Api.HangfireJobs;
 
 public class GeocodingJob : IGeocodingJob
 {
@@ -42,11 +42,23 @@ public class GeocodingJob : IGeocodingJob
         }
 
         var result = await _getAddressCoordinatesQuery.ExecuteAsync(importedPollingStation.County, importedPollingStation.Address, cancellationToken);
+
+        if (result is LocationSearchResult.Error)
+        {
+            return;
+        }
+
         if (result is LocationSearchResult.Found coordinates)
         {
             var (latitude, longitude) = coordinates;
             importedPollingStation.UpdateCoordinates(latitude, longitude);
-            await _repository.UpdateAsync(importedPollingStation, cancellationToken);
         }
+
+        if (result is LocationSearchResult.NotFound)
+        {
+            importedPollingStation.MarkAsNotFound();
+        }
+
+        await _repository.UpdateAsync(importedPollingStation, cancellationToken);
     }
 }

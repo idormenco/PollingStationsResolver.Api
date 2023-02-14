@@ -16,7 +16,7 @@ internal class GetAddressCoordinatesQuery : IGetAddressCoordinatesQuery
         _geocodingClientFactories = geocodingClientFactories.ToImmutableList();
     }
 
-    public async Task<LocationSearchResult> ExecuteAsync(string county, string address, CancellationToken cancellationToken)
+    public async Task<LocationSearchResult> ExecuteAsync(string county, string address, CancellationToken cancellationToken = default)
     {
         var cachePolicy = _cachePolicyFactory.GetCachePolicy();
         var cacheKey = BuildCacheKey(county, address);

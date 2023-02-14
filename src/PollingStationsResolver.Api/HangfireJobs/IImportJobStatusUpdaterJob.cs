@@ -1,4 +1,4 @@
-﻿namespace PollingStationsResolver.Api.Jobs;
+﻿namespace PollingStationsResolver.Api.HangfireJobs;
 
 public interface IImportJobStatusUpdaterJob
 {
