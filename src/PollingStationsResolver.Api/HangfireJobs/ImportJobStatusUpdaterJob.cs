@@ -3,14 +3,14 @@ using PollingStationsResolver.Domain.Entities.ImportJobAggregate;
 using PollingStationsResolver.Domain.Repository;
 using PollingStationsResolver.Domain.Specifications;
 
-namespace PollingStationsResolver.Api.Jobs;
+namespace PollingStationsResolver.Api.HangfireJobs;
 
 public class ImportJobStatusUpdaterJob : IImportJobStatusUpdaterJob
 {
     private readonly IRepository<ImportJob> _repository;
-    private readonly IRepository<ImportedPollingStation> _importedPollingStationsRepository;
+    private readonly IReadRepository<ImportedPollingStation> _importedPollingStationsRepository;
 
-    public ImportJobStatusUpdaterJob(IRepository<ImportJob> repository, IRepository<ImportedPollingStation> importedPollingStationsRepository)
+    public ImportJobStatusUpdaterJob(IRepository<ImportJob> repository, IReadRepository<ImportedPollingStation> importedPollingStationsRepository)
     {
         _repository = repository;
         _importedPollingStationsRepository = importedPollingStationsRepository;
@@ -22,7 +22,7 @@ public class ImportJobStatusUpdaterJob : IImportJobStatusUpdaterJob
         if (importJob != null)
         {
             var hasUnprocessedPollingStations = await _importedPollingStationsRepository
-                .AnyAsync(new GetImportedPollingStationByAddressStatusSpecification(ResolvedAddressStatus.NotProcessed), cancellationToken);
+                .AnyAsync(new GetImportedPollingStationByAddressStatusSpecification(importJob.Id, ResolvedAddressStatus.NotProcessed), cancellationToken);
 
             if (hasUnprocessedPollingStations)
             {

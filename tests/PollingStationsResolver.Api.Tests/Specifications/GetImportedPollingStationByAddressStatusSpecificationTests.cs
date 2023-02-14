@@ -11,19 +11,22 @@ public class GetImportedPollingStationByAddressStatusSpecificationTests
     [Fact]
     public void GetImportedPollingStationByAddressStatusSpecification_AppliesCorrectFilters()
     {
-        var requestedPollingStation1 = BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.Success);
-        var requestedPollingStation2 = BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.Success);
+        Guid jobId = Guid.NewGuid();
+        var requestedPollingStation1 = BobBuilder.CreateImportedPollingStation(jobId, status: ResolvedAddressStatus.Success);
+        var requestedPollingStation2 = BobBuilder.CreateImportedPollingStation(jobId, status: ResolvedAddressStatus.Success);
 
         var testCollection = new List<ImportedPollingStation>()
         {
             requestedPollingStation1,
             requestedPollingStation2,
+            BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.Success),
+            BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.Success),
             BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.NotFound),
             BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.NotProcessed)
         };
 
 
-        var spec = new GetImportedPollingStationByAddressStatusSpecification(ResolvedAddressStatus.Success);
+        var spec = new GetImportedPollingStationByAddressStatusSpecification(jobId, ResolvedAddressStatus.Success);
 
         var result = spec.Evaluate(testCollection).ToList();
 

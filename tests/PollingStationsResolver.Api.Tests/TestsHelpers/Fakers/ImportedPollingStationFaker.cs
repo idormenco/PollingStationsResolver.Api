@@ -14,8 +14,8 @@ public class ImportedPollingStationFaker : AutoFaker<ImportedPollingStation>
         RuleFor(fake => fake.County, fake => fake.Address.Country());
         RuleFor(fake => fake.Locality, fake => fake.Address.City());
         RuleFor(fake => fake.Address, fake => fake.Address.FullAddress());
-        RuleFor(fake => fake.Latitude, fake => fake.Address.Latitude());
-        RuleFor(fake => fake.Longitude, fake => fake.Address.Longitude());
+        RuleFor(fake => fake.Latitude, fake => status == ResolvedAddressStatus.Success ? fake.Address.Latitude() : null);
+        RuleFor(fake => fake.Longitude, fake => status == ResolvedAddressStatus.Success ? fake.Address.Longitude() : null);
         RuleFor(fake => fake.ResolvedAddressStatus, fake => status ?? fake.PickRandom(ResolvedAddressStatus.Success, ResolvedAddressStatus.NotFound, ResolvedAddressStatus.NotProcessed));
         RuleFor("_assignedAddresses", (_, _) => new ImportedPollingStationAddressFaker().Generate(2));
     }

@@ -176,6 +176,20 @@ public class ImportedPollingStationTests
     }
 
     [Fact]
+    public void MarkAsNotFound_Should_SetResolvedAddressStatusToNotFound()
+    {
+        // Arrange
+        var importedPollingStation =
+            BobBuilder.CreateImportedPollingStation(status: ResolvedAddressStatus.NotProcessed);
+
+        // Act
+        importedPollingStation.MarkAsNotFound();
+
+        // Assert
+        importedPollingStation.ResolvedAddressStatus.Should().Be(ResolvedAddressStatus.NotFound);
+    }
+
+    [Fact]
     public void AssignToJob_WithEmptyJobId_ShouldThrowException()
     {
         // Arrange

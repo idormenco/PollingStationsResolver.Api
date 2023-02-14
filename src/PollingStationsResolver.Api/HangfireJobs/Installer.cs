@@ -3,7 +3,7 @@ using Hangfire.Dashboard;
 using Hangfire.Dashboard.BasicAuthorization;
 using Hangfire.MemoryStorage;
 
-namespace PollingStationsResolver.Api.Jobs;
+namespace PollingStationsResolver.Api.HangfireJobs;
 
 public static class Installer
 {

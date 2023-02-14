@@ -4,5 +4,5 @@ namespace PollingStationsResolver.Geocoding;
 
 public interface IGetAddressCoordinatesQuery
 {
-    Task<LocationSearchResult> ExecuteAsync(string county, string address, CancellationToken cancellationToken);
+    Task<LocationSearchResult> ExecuteAsync(string county, string address, CancellationToken cancellationToken = default);
 }

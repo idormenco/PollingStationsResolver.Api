@@ -6,9 +6,11 @@ namespace PollingStationsResolver.Domain.Specifications;
 
 public class GetImportedPollingStationByAddressStatusSpecification : Specification<ImportedPollingStation>
 {
-    public GetImportedPollingStationByAddressStatusSpecification(ResolvedAddressStatus resolvedAddressStatus)
+    public GetImportedPollingStationByAddressStatusSpecification(Guid importJobId,
+        ResolvedAddressStatus resolvedAddressStatus)
     {
         Query
+            .Where(x => x.JobId == importJobId)
             .Where(x => x.ResolvedAddressStatus == resolvedAddressStatus);
     }
 }
