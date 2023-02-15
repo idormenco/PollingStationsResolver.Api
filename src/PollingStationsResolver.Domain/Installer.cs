@@ -20,6 +20,7 @@ public static class Installer
             }));
 
         services.AddScoped(typeof(IRepository<>), typeof(EfRepository<>));
+        services.AddScoped(typeof(IReadRepository<>), typeof(EfRepository<>));
 
         return services;
     }

@@ -26,7 +26,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{490F2529
 		CodeCoverage.runsettings = CodeCoverage.runsettings
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingStationsResolver.Geocoding", "src\PollingStationsResolver.Geocoding\PollingStationsResolver.Geocoding.csproj", "{385339A9-3E43-49F5-B90C-E539B17E67EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PollingStationsResolver.Geocoding", "src\PollingStationsResolver.Geocoding\PollingStationsResolver.Geocoding.csproj", "{385339A9-3E43-49F5-B90C-E539B17E67EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PollingStationsResolver.Geocoding.Tests", "tests\PollingStationsResolver.Geocoding.Tests\PollingStationsResolver.Geocoding.Tests.csproj", "{11387EF4-7091-4C1F-8A9F-56D7439B2D4C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -54,6 +56,10 @@ Global
 		{385339A9-3E43-49F5-B90C-E539B17E67EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{385339A9-3E43-49F5-B90C-E539B17E67EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{385339A9-3E43-49F5-B90C-E539B17E67EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11387EF4-7091-4C1F-8A9F-56D7439B2D4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11387EF4-7091-4C1F-8A9F-56D7439B2D4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11387EF4-7091-4C1F-8A9F-56D7439B2D4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11387EF4-7091-4C1F-8A9F-56D7439B2D4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +70,7 @@ Global
 		{C159AECF-3E4A-42E1-9159-C866433A0A6A} = {9EDFEF85-1590-4FF0-B01D-2684806F5705}
 		{C23E2880-ACE3-48AE-B97F-8BB35493FABF} = {490F2529-5CBD-4ACF-96A0-9B90AF55AFBF}
 		{385339A9-3E43-49F5-B90C-E539B17E67EC} = {9EDFEF85-1590-4FF0-B01D-2684806F5705}
+		{11387EF4-7091-4C1F-8A9F-56D7439B2D4C} = {490F2529-5CBD-4ACF-96A0-9B90AF55AFBF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2625F564-6C51-4166-844A-43248B6869C0}

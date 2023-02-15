@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PollingStationsResolver.Geocoding.HereMaps;
 using PollingStationsResolver.Geocoding.Interfaces;

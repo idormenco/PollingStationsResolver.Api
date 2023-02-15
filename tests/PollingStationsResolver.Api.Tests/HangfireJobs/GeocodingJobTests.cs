@@ -37,8 +37,10 @@ public class GeocodingJobTests
         _importJobRepository.GetByIdAsync(jobId).Returns(importJob);
 
         // Act and Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            _geocodingJob.Run(jobId, pollingStationId, CancellationToken.None));
+        var act = () =>
+            _geocodingJob.Run(jobId, pollingStationId, CancellationToken.None);
+
+        await act.Should().ThrowAsync<ArgumentNullException>();
     }
 
     [Fact]
@@ -76,8 +78,9 @@ public class GeocodingJobTests
             .Returns(importedPollingStation);
 
         // Act and Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() =>
-            _geocodingJob.Run(jobId, pollingStationId, CancellationToken.None));
+        var act = () => _geocodingJob.Run(jobId, pollingStationId, CancellationToken.None);
+        await act.Should().ThrowAsync<ArgumentNullException>();
+
     }
 
     [Fact]

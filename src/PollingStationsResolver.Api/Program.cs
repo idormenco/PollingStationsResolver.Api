@@ -7,6 +7,7 @@ using PollingStationsResolver.Domain;
 using System.Text;
 using PollingStationsResolver.Api.HangfireJobs;
 using PollingStationsResolver.Geocoding;
+using Serilog;
 
 Encoding.RegisterProvider(CodePagesEncodingProvider.Instance); // set this for Excel parser
 
@@ -30,6 +31,10 @@ builder.WebHost.ConfigureKestrel(o =>
 {
     o.Limits.MaxRequestBodySize = 1073741824; //set to max allowed file size of your system
 });
+
+builder.Host.UseSerilog((ctx, lc) => lc
+    .WriteTo.Console()
+    .WriteTo.Seq(builder.Configuration.GetValue<string>("SeqUrl")!));
 
 var app = builder.Build();
 app.UseDefaultExceptionHandler();
