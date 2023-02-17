@@ -8,7 +8,8 @@ The API provides the following endpoints:
 ### POST /api/polling-stations
 This endpoint is used to create a new polling station.
 
-- Request
+**Request**
+
 The request must include a JSON body with the following parameters:
 
 Parameter|Type|Required|Description
@@ -16,7 +17,8 @@ Parameter|Type|Required|Description
 |latitude|number|Yes|The latitude of the polling station location.|
 |longitude|number|Yes|The longitude of the polling station location.|
 
-- Response
+**Response**
+
 If the request is successful, the API will return a JSON object with the following parameters:
 
 |Parameter|Type|Description|
@@ -28,14 +30,14 @@ If the request is successful, the API will return a JSON object with the followi
 ### GET /api/polling-stations
 This endpoint is used to retrieve a list of all polling stations.
 
-- Request
+**Request**
 
 |Parameter|Type|Required|Description
 |---|---|---|---|
 |page|number|Yes|The latitude of the polling station location.
 |pagesize|number|Yes|The longitude of the polling station location.
 
-- Response
+**Response**
 If the request is successful, the API will return a JSON object with a list of polling stations. Each polling station object will have the following parameters:
 
 |Parameter|Type|Description|
@@ -47,7 +49,7 @@ If the request is successful, the API will return a JSON object with a list of p
 ### PUT /api/polling-stations/{id}
 This endpoint is used to update an existing polling station.
 
-- Request
+**Request**
 The request must include a JSON body with the following parameters:
 
 | Parameter|Type|Description
@@ -56,27 +58,27 @@ The request must include a JSON body with the following parameters:
 | latitude|number|The latitude of the polling station location.|
 | longitude|number|The longitude of the polling station location.|
 
-- Response
+**Response**
 If the request is successful, the API will return a JSON object with the updated polling station.
 The polling station object will have the same parameters as described in the POST /api/polling-stations endpoint.
 
 ### GET /api/polling-stations/{id}
 This endpoint is used to retrieve a single polling station by its ID.
 
-- Request
+**Request**
 The id parameter in the URL specifies the ID of the polling station to retrieve.
 
-- Response
+**Response**
 If the request is successful, the API will return a JSON object with the specified polling station.
 The polling station object will have the same parameters as described in the POST /api/polling-stations endpoint.
 
 ### DELETE /api/polling-stations/{id}
 This endpoint is used to delete a single polling station by its ID.
 
-- Request
+**Request**
 The id parameter in the URL specifies the ID of the polling station to delete.
 
-- Response
+**Response**
 If the request is successful, the API will return a JSON object with a message indicating that the polling station was successfully deleted.
 
 ### Error Codes
