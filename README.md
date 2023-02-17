@@ -1,16 +1,10 @@
-```mermaid
-graph TD;
-    A-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
+
 
 # API Documentation for Polling Stations
 This API allows you to manage polling stations, including creating, retrieving, updating, and deleting polling stations. 
 The API provides the following endpoints:
 
-## Endpoints
+## Polling stations endpoints 
 ### POST /api/polling-stations
 This endpoint is used to create a new polling station.
 
@@ -26,7 +20,7 @@ Parameter|Type|Required|Description
 If the request is successful, the API will return a JSON object with the following parameters:
 
 |Parameter|Type|Description|
-|---|---|---|---|
+|---|---|---|
 |id|guid|The unique identifier of the new polling station.|
 |latitude|number|The latitude of the polling station location.|
 |longitude|number|The longitude of the polling station location.|
