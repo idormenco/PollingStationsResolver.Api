@@ -83,11 +83,8 @@ public class ImportedPollingStation : BaseEntity, IAggregateRoot
         return _assignedAddresses.Find(address => address.Id == id);
     }
 
-    public void UpdateCoordinates(double? latitude, double? longitude)
+    public void UpdateCoordinates(double latitude, double longitude)
     {
-        Guard.Against.Null(latitude);
-        Guard.Against.Null(longitude);
-
         ResolvedAddressStatus = ResolvedAddressStatus.Success;
         Latitude = latitude;
         Longitude = longitude;

@@ -16,15 +16,15 @@ internal class GetAddressCoordinatesQuery : IGetAddressCoordinatesQuery
         _geocodingClientFactories = geocodingClientFactories.ToImmutableList();
     }
 
-    public async Task<LocationSearchResult> ExecuteAsync(string county, string address, CancellationToken cancellationToken = default)
+    public async Task<LocationSearchResult> ExecuteAsync(string county, string locality, string address, CancellationToken cancellationToken = default)
     {
         var cachePolicy = _cachePolicyFactory.GetCachePolicy();
-        var cacheKey = BuildCacheKey(county, address);
+        var cacheKey = BuildCacheKey(county, locality, address);
 
         foreach (var geocodingClientFactory in _geocodingClientFactories)
         {
             var geocodingClient = geocodingClientFactory.Create();
-            var result = await cachePolicy.ExecuteAsync(context => geocodingClient.FindCoordinatesAsync(county, address, cancellationToken), cacheKey);
+            var result = await cachePolicy.ExecuteAsync(context => geocodingClient.FindCoordinatesAsync(county, locality, address, cancellationToken), cacheKey);
 
             if (result is LocationSearchResult.Found)
             {
@@ -35,8 +35,8 @@ internal class GetAddressCoordinatesQuery : IGetAddressCoordinatesQuery
         return new LocationSearchResult.NotFound();
     }
 
-    private Context BuildCacheKey(string county, string address)
+    private Context BuildCacheKey(string county, string locality, string address)
     {
-        return new Context($"{county}/{address}");
+        return new Context($"{county}/{locality}/{address}");
     }
 }

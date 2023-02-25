@@ -1,4 +1,6 @@
-﻿namespace PollingStationsResolver.Domain.Entities;
+﻿using PollingStationsResolver.Domain.Helpers;
+
+namespace PollingStationsResolver.Domain.Entities;
 
 public class ResolvedAddress : BaseEntity, IAggregateRoot
 {
@@ -12,13 +14,15 @@ public class ResolvedAddress : BaseEntity, IAggregateRoot
         County = county;
         Locality = locality;
         Address = address;
+
+        Id = DeterministicGuid.Create(county, locality, address);
         Latitude = latitude;
         Longitude = longitude;
     }
 
-    public string County { get; private init; }
-    public string Locality { get; private init; }
-    public string Address { get; private init; }
-    public double Latitude { get; private init; }
-    public double Longitude { get; private init; }
+    public string County { get; private set; }
+    public string Locality { get; private set; }
+    public string Address { get; private set; }
+    public double Latitude { get; private set; }
+    public double Longitude { get; private set; }
 }

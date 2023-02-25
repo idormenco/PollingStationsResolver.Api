@@ -42,7 +42,7 @@ public class ImportJobTests
         importJob.Start();
 
         // Act
-        importJob.End();
+        importJob.Finish();
 
         // Assert
         importJob.JobStatus.Should().Be(ImportJobStatus.Finished);

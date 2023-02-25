@@ -13,12 +13,12 @@ public class GetAddressCoordinatesQueryTests
         // Arrange
         var firstGeocodingClient = Substitute.For<IGeocodingClient>();
         firstGeocodingClient
-            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>())
+            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
             .Returns(new LocationSearchResult.Found(2, 3));
 
         var secondGeocodingClient = Substitute.For<IGeocodingClient>();
         secondGeocodingClient
-            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>())
+            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
             .Returns(new LocationSearchResult.Found(4, 5));
 
         var firstClientFactoryMock = Substitute.For<IGeocodingClientFactory>();
@@ -38,7 +38,7 @@ public class GetAddressCoordinatesQueryTests
         var query = new GetAddressCoordinatesQuery(geocodingClientFactories, cachePolicyFactory);
 
         // Act
-        var result = await query.ExecuteAsync("county", "address");
+        var result = await query.ExecuteAsync("county", "locality", "address");
 
         // Assert
         result
@@ -56,12 +56,12 @@ public class GetAddressCoordinatesQueryTests
         // Arrange
         var firstGeocodingClient = Substitute.For<IGeocodingClient>();
         firstGeocodingClient
-            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>())
+            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
             .Returns(new LocationSearchResult.Error());
 
         var secondGeocodingClient = Substitute.For<IGeocodingClient>();
         secondGeocodingClient
-            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>())
+            .FindCoordinatesAsync(Arg.Any<string>(), Arg.Any<string>(), Arg.Any<string>())
             .Returns(new LocationSearchResult.Error());
 
         var firstClientFactoryMock = Substitute.For<IGeocodingClientFactory>();
@@ -81,7 +81,7 @@ public class GetAddressCoordinatesQueryTests
         var query = new GetAddressCoordinatesQuery(geocodingClientFactories, cachePolicyFactory);
 
         // Act
-        var result = await query.ExecuteAsync("county", "address");
+        var result = await query.ExecuteAsync("county", "locality", "address");
 
         // Assert
         result

@@ -14,7 +14,7 @@ internal class SearchResult
     public string OsmType { get; set; }
 
     [JsonPropertyName("osm_id")]
-    public int OsmId { get; set; }
+    public long OsmId { get; set; }
 
     [JsonPropertyName("boundingbox")]
     public List<string> Boundingbox { get; set; }
@@ -27,9 +27,6 @@ internal class SearchResult
     
     [JsonPropertyName("display_name")]
     public string DisplayName { get; set; }
-
-    [JsonPropertyName("place_rank")]
-    public int PlaceRank { get; set; }
 
     [JsonPropertyName("category")]
     public string Category { get; set; }

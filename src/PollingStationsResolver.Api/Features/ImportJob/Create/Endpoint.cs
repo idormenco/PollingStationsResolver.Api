@@ -2,6 +2,7 @@
 using PollingStationsResolver.Domain.Repository;
 using ImportJobEntity = PollingStationsResolver.Domain.Entities.ImportJobAggregate.ImportJob;
 using ImportedPollingStationEntity = PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation;
+using PollingStationsResolver.Domain.Specifications;
 
 namespace PollingStationsResolver.Api.Features.ImportJob.Create;
 
@@ -27,6 +28,13 @@ public class Endpoint : Endpoint<ImportRequest, ImportJobModel, ResponseMapper>
 
     public override async Task HandleAsync(ImportRequest request, CancellationToken ct)
     {
+
+        var hasImportJobInProgress = await _repository.AnyAsync(new CurrentImportJobInProgressSpecification(), ct);
+        if (hasImportJobInProgress)
+        {
+            ThrowError("Cannot import another file when it is an import job in progress.");
+        }
+
         var parseResult = _excelParser.ParsePollingStations(request.File);
 
         switch (parseResult)
@@ -35,12 +43,13 @@ public class Endpoint : Endpoint<ImportRequest, ImportJobModel, ResponseMapper>
                 var base64File = EncodeFile(request.File);
                 var importJob = new ImportJobEntity(request.File.FileName, base64File);
                 importJob = await _repository.AddAsync(importJob, ct);
+                
                 foreach (var importedPollingStation in pollingStations)
                 {
                     importedPollingStation.AssignToJob(importJob.Id);
                 }
-                await _importedPollingStationsRepository.AddRangeAsync(pollingStations, ct);
 
+                await _importedPollingStationsRepository.AddRangeAsync(pollingStations, ct);
                 await SendOkAsync(Map.FromEntity(importJob), ct);
                 break;
 
@@ -60,7 +69,6 @@ public class Endpoint : Endpoint<ImportRequest, ImportJobModel, ResponseMapper>
             default:
                 ThrowError("Unhandled parse result");
                 break;
-
         }
     }
 

@@ -29,7 +29,7 @@ public class ImportJob : BaseEntity, IAggregateRoot
         FinishedAt = null;
     }
 
-    public void End()
+    public void Finish()
     {
         JobStatus = ImportJobStatus.Finished;
         FinishedAt = DateTime.UtcNow;

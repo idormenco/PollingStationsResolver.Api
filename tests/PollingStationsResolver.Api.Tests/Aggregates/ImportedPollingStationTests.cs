@@ -145,22 +145,6 @@ public class ImportedPollingStationTests
         importedPollingStation.ResolvedAddressStatus.Should().Be(ResolvedAddressStatus.Success);
     }
 
-    [Theory]
-    [InlineData(null, null)]
-    [InlineData(null, 1.0)]
-    [InlineData(1.0, null)]
-    public void UpdateCoordinates_ShouldThrowException_WhenLatitudeOrLongitudeIsNull(double? latitude, double? longitude)
-    {
-        // Arrange
-        var importedPollingStation = BobBuilder.CreateImportedPollingStation();
-
-        // Act
-        Action act = () => importedPollingStation.UpdateCoordinates(latitude, longitude);
-
-        // Assert
-        act.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null. (Parameter '*')");
-    }
-
     [Fact]
     public void AssignToJob_ShouldSetJobId()
     {

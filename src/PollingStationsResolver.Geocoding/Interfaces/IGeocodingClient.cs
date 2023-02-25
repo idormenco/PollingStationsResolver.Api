@@ -4,5 +4,5 @@ namespace PollingStationsResolver.Geocoding.Interfaces;
 
 internal interface IGeocodingClient
 {
-    Task<LocationSearchResult> FindCoordinatesAsync(string county, string address, CancellationToken cancellationToken = default);
+    Task<LocationSearchResult> FindCoordinatesAsync(string county, string locality, string address, CancellationToken cancellationToken = default);
 }

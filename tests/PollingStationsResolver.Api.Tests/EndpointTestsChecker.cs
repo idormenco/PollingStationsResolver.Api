@@ -12,8 +12,7 @@ public class EndpointTestsChecker
     [MemberData(nameof(EndpointTestCases))]
     public void Every_endpoint_should_have_a_test(string testName, bool testExists)
     {
-        // Temporary disable test
-        //testExists.Should().BeTrue($"There should be a test called '{testName}'");
+        testExists.Should().BeTrue($"There should be a test called '{testName}'");
     }
 
     public static IEnumerable<object[]> EndpointTestCases

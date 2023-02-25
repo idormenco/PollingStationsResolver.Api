@@ -4,7 +4,7 @@ using PollingStationsResolver.Domain.Entities.ImportJobAggregate;
 
 namespace PollingStationsResolver.Domain.EntitiesConfiguration;
 
-public class ImportJobFileConfiguration : IEntityTypeConfiguration<ImportJobFile>
+internal class ImportJobFileConfiguration : IEntityTypeConfiguration<ImportJobFile>
 {
     public void Configure(EntityTypeBuilder<ImportJobFile> builder)
     {

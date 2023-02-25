@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using System.Text.Json;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using PollingStationsResolver.Geocoding.HereMaps;
@@ -40,6 +41,12 @@ public static class Installer
         services.AddSingleton<IGeocodingClientFactory, HereMapsGeocodingClientFactory>();
         services.AddSingleton<IGetAddressCoordinatesQuery, GetAddressCoordinatesQuery>();
 
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+            NumberHandling = System.Text.Json.Serialization.JsonNumberHandling.AllowReadingFromString
+        };
+
+        services.AddSingleton(jsonSerializerOptions);
         return services;
     }
 }

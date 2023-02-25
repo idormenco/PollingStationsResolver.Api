@@ -26,6 +26,4 @@ Console.WriteLine($"Migrating {dbContext.GetType().Name}.");
 await dbContext.CreateAndMigrateAsync();
 Console.WriteLine($"Done: Migrating {dbContext.GetType().Name}.");
 
-//TODO: create hangfire db if it does not exists
-
 Console.WriteLine("All good. Have a nice day!");

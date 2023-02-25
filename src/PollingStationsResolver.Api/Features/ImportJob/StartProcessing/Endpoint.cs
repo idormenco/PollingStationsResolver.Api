@@ -4,6 +4,7 @@ using ImportJobEntity = PollingStationsResolver.Domain.Entities.ImportJobAggrega
 using ImportedPollingStationEntity = PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate.ImportedPollingStation;
 using Hangfire;
 using PollingStationsResolver.Api.HangfireJobs;
+using PollingStationsResolver.Domain.Entities.ImportJobAggregate;
 
 namespace PollingStationsResolver.Api.Features.ImportJob.StartProcessing;
 
@@ -37,7 +38,7 @@ public class Endpoint : EndpointWithoutRequest
             importJob.Start();
             await _importJobRepository.UpdateAsync(importJob, ct);
 
-            var importedPollingStations = await _repository.ListAsync(new ListImportedPollingStationsSpecification(jobId), ct);
+            var importedPollingStations = await _repository.ListAsync(new ListUnresolvedImportedPollingStationsSpecification(jobId), ct);
 
             foreach (var importedPollingStation in importedPollingStations)
             {

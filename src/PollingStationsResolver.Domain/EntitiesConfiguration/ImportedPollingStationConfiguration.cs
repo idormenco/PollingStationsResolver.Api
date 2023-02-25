@@ -4,7 +4,7 @@ using PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate;
 
 namespace PollingStationsResolver.Domain.EntitiesConfiguration;
 
-public class ImportedPollingStationConfiguration : IEntityTypeConfiguration<ImportedPollingStation>
+internal class ImportedPollingStationConfiguration : IEntityTypeConfiguration<ImportedPollingStation>
 {
     public void Configure(EntityTypeBuilder<ImportedPollingStation> builder)
     {

@@ -4,6 +4,7 @@ using PollingStationsResolver.Api.Features.ImportedPollingStation.Update;
 using PollingStationsResolver.Api.Features.PollingStation.Add;
 using PollingStationsResolver.Api.Features.PollingStation.Update;
 using PollingStationsResolver.Api.Tests.TestsHelpers.Fakers;
+using PollingStationsResolver.Domain.Entities;
 using PollingStationsResolver.Domain.Entities.ImportedPollingStationAggregate;
 using PollingStationsResolver.Domain.Entities.ImportJobAggregate;
 using PollingStationsResolver.Domain.Entities.PollingStationAggregate;
@@ -63,6 +64,13 @@ public class BobBuilder
     public static UpdateAssignedAddressRequest CreateUpdateAssignedAddressRequest(Guid? id = null)
     {
         var updateAssignedAddressRequest = new UpdateAssignedAddressRequestFaker(id).Generate();
+
+        return updateAssignedAddressRequest;
+    }
+
+    public static ResolvedAddress CreateResolvedAddress()
+    {
+        var updateAssignedAddressRequest = new ResolvedAddressFaker().Generate();
 
         return updateAssignedAddressRequest;
     }

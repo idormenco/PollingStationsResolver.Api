@@ -18,10 +18,10 @@ public class ImportedPollingStationAddress : BaseEntity
     }
 
     public string Locality { get; private set; }
-    public string? Street { get; private set; }
-    public string? StreetCode { get; private set; }
-    public string? HouseNumbers { get; private set; }
-    public string? Remarks { get; private set; }
+    public string Street { get; private set; }
+    public string StreetCode { get; private set; }
+    public string HouseNumbers { get; private set; }
+    public string Remarks { get; private set; }
 
     public void UpdateDetails(string locality, string streetCode, string street, string houseNumbers, string remarks)
     {

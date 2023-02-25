@@ -20,7 +20,7 @@ internal class CachePolicyFactory
         {
             Func<Context, LocationSearchResult, Ttl> cacheOnlyResolvedFilter =
                 (context, result) => new Ttl(
-                    timeSpan: result is LocationSearchResult.Found ? TimeSpan.FromSeconds(15) : TimeSpan.Zero,
+                    timeSpan: result is LocationSearchResult.Found ? TimeSpan.FromHours(1) : TimeSpan.Zero,
                     slidingExpiration: true
                 );
 

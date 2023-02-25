@@ -29,7 +29,7 @@ public class ImportJobStatusUpdaterJob : IImportJobStatusUpdaterJob
                 return;
             }
 
-            importJob.End();
+            importJob.Finish();
             await _repository.UpdateAsync(importJob, cancellationToken);
         }
     }

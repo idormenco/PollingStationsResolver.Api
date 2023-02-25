@@ -22,7 +22,7 @@ public class ListImportedPollingStationsSpecificationTests
               .Union(Enumerable.Range(1, 100).Select(_ => BobBuilder.CreateImportedPollingStation(jobId2)))
               .ToList();
 
-        var spec = new ListImportedPollingStationsSpecification(jobId1, new Pagination(2, pageSize: 10));
+        var spec = new ListImportedPollingStationsSpecification(jobId1, pagination: new Pagination(2, pageSize: 10));
         var result = spec.Evaluate(testCollection).ToList();
 
         result.Should().HaveCount(2);

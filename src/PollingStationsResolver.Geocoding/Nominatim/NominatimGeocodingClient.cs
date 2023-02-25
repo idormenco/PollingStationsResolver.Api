@@ -8,26 +8,27 @@ namespace PollingStationsResolver.Geocoding.Nominatim;
 internal class NominatimGeocodingClient : INominatimGeocodingClient
 {
     private readonly HttpClient _httpClient;
-    private ILogger<NominatimGeocodingClient> _logger;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    private readonly ILogger<NominatimGeocodingClient> _logger;
 
-    public NominatimGeocodingClient(HttpClient httpClient, ILogger<NominatimGeocodingClient> logger)
+    public NominatimGeocodingClient(HttpClient httpClient, JsonSerializerOptions jsonSerializerOptions, ILogger<NominatimGeocodingClient> logger)
     {
         _httpClient = httpClient;
+        _jsonSerializerOptions = jsonSerializerOptions;
         _logger = logger;
     }
 
-    public async Task<LocationSearchResult> FindCoordinatesAsync(string county, string fullAddress, CancellationToken cancellationToken)
+    public async Task<LocationSearchResult> FindCoordinatesAsync(string county, string locality, string address, CancellationToken cancellationToken)
     {
-
         try
         {
-            // TODO: implement filtering by country
-            using var response = await _httpClient.GetAsync($"/search?q={UrlEncoder.Default.Encode(county)}+{UrlEncoder.Default.Encode(fullAddress)}", cancellationToken);
-            var responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+            using var response = await _httpClient.GetAsync($"/search?q={UrlEncoder.Default.Encode(county)}+{UrlEncoder.Default.Encode(address)}&format=json", cancellationToken);
 
             if (response.IsSuccessStatusCode)
             {
-                var searchResults = JsonSerializer.Deserialize<SearchResult[]>(responseString);
+                await using var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+
+                var searchResults = JsonSerializer.Deserialize<SearchResult[]>(contentStream, _jsonSerializerOptions);
 
                 if (searchResults!.Any())
                 {
@@ -36,16 +37,17 @@ internal class NominatimGeocodingClient : INominatimGeocodingClient
             }
             else
             {
-                _logger.LogWarning(
-                    "Received non success status code: {statusCode}, with response='{responseString}'",
-                    response.StatusCode, responseString);
+                var responseString = await response.Content.ReadAsStringAsync(cancellationToken);
+                _logger.LogWarning("[Nominatim] Received non success status code: {statusCode}, with response='{responseString}' for {county}, {locality}, {address}", response.StatusCode, responseString, county, locality, address);
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            _logger.LogError(ex, "An error occurred when calling Nominatim service");
+            _logger.LogError(e, "An error occurred when calling Nominatim service for {county}, {locality}, {address}", county, locality, address);
             return new LocationSearchResult.Error();
         }
+
+        _logger.LogWarning("[Nominatim] No coordinates found for {county}, {locality}, {address}", county, locality, address);
 
         return new LocationSearchResult.NotFound();
     }
